@@ -1,0 +1,17 @@
+import os 
+import csv
+from os.path import join, getsize
+a = csv.writer(open("Your Desired output file name.csv", "wb"), delimiter=',', quotechar="", quoting=csv.QUOTE_NONE)
+# the below line will help you add headers when you write to CSV, change it based on your requirements
+header = ["case_id", "file_type", "size_in_KB"]
+a.writerow(header)
+for root, dirs, files in os.walk("Your directories absolute path"):
+	path = root.split('/')
+	for name in files:
+	  # ext will get you the extension (eg. img.jpg = '.jpg')
+		ext = (os.path.splitext(name)[1])
+		out = [path[len(path)-1], ext[1:], (getsize(join(root, name))/1024)]
+		a.writerow(out)
+		
+# If you're only interested in looking in to the directories rather than printing it,
+# comment the lines 2,4,6,7 & 14 and include "print out"		
